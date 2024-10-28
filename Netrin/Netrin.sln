@@ -3,9 +3,49 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{49DA2FA0-6D43-4549-85DA-403B586FD8D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Building Blocks", "Building Blocks", "{903DBD4C-3A2A-4BF6-915B-F5F58406869F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{DB2097C9-A73A-4C09-8EF1-6DCCED98AE92}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{EFF637DE-B62C-4B6E-92E5-535685BF259C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Netrin.Domain", "src\Netrin.Domain\Netrin.Domain.csproj", "{F0BCCD2F-A24D-4748-A4CC-7E14651F9AFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Netrin.Data", "src\Netrin.Data\Netrin.Data.csproj", "{5C5B387E-D1FC-4574-A0F0-B375D392AED3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Netrin.Services", "src\Netrin.Services\Netrin.Services.csproj", "{C0761E2A-E52B-4C76-A646-82B27D5D77BF}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0BCCD2F-A24D-4748-A4CC-7E14651F9AFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0BCCD2F-A24D-4748-A4CC-7E14651F9AFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0BCCD2F-A24D-4748-A4CC-7E14651F9AFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0BCCD2F-A24D-4748-A4CC-7E14651F9AFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C5B387E-D1FC-4574-A0F0-B375D392AED3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C5B387E-D1FC-4574-A0F0-B375D392AED3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C5B387E-D1FC-4574-A0F0-B375D392AED3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C5B387E-D1FC-4574-A0F0-B375D392AED3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0761E2A-E52B-4C76-A646-82B27D5D77BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0761E2A-E52B-4C76-A646-82B27D5D77BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0761E2A-E52B-4C76-A646-82B27D5D77BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0761E2A-E52B-4C76-A646-82B27D5D77BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{903DBD4C-3A2A-4BF6-915B-F5F58406869F} = {49DA2FA0-6D43-4549-85DA-403B586FD8D9}
+		{DB2097C9-A73A-4C09-8EF1-6DCCED98AE92} = {903DBD4C-3A2A-4BF6-915B-F5F58406869F}
+		{EFF637DE-B62C-4B6E-92E5-535685BF259C} = {903DBD4C-3A2A-4BF6-915B-F5F58406869F}
+		{F0BCCD2F-A24D-4748-A4CC-7E14651F9AFD} = {DB2097C9-A73A-4C09-8EF1-6DCCED98AE92}
+		{5C5B387E-D1FC-4574-A0F0-B375D392AED3} = {EFF637DE-B62C-4B6E-92E5-535685BF259C}
+		{C0761E2A-E52B-4C76-A646-82B27D5D77BF} = {DB2097C9-A73A-4C09-8EF1-6DCCED98AE92}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {504DC258-2040-432D-9AD0-95B07D1D8867}
