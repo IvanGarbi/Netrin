@@ -1,0 +1,153 @@
+﻿@page "/cadastrar-pessoa"
+@using Netrin.App.Models
+@using Netrin.Domain.Interfaces.Notificacoes
+@using Netrin.Domain.Interfaces.Services
+@using Netrin.Domain.Models
+@using Netrin.Services.Validations
+@using global::AutoMapper
+@inject IToastService ToastService
+@inject IPessoaService _pessoaService
+@inject IMapper _mapper
+@inject INotificador _notificador
+@inject NavigationManager NavigationManager
+
+
+@attribute [Authorize]
+
+<h3 class="text-center mb-4">Cadastrar Pessoa</h3>
+
+<EditForm Model="@pessoaViewModel" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary class="text-danger" />
+
+    <h4 class="mt-4">Informações da Pessoa</h4>
+
+    <div class="form-group mb-3">
+        <label for="nomeCompleto">Nome Completo:</label>
+        <InputText id="nomeCompleto" class="form-control" @bind-Value="pessoaViewModel.NomeCompleto" />
+        <ValidationMessage For="@(() => pessoaViewModel.NomeCompleto)" class="text-danger" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="dataNascimento">Data de Nascimento:</label>
+        <InputDate id="dataNascimento" class="form-control" @bind-Value="pessoaViewModel.DataNascimento" />
+        <ValidationMessage For="@(() => pessoaViewModel.DataNascimento)" class="text-danger" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="cpf">CPF:</label>
+        <InputText id="cpf" class="form-control" @bind-Value="pessoaViewModel.CPF" />
+        <ValidationMessage For="@(() => pessoaViewModel.CPF)" class="text-danger" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="telefone">Telefone:</label>
+        <InputText id="telefone" class="form-control" @bind-Value="pessoaViewModel.Telefone" />
+        <ValidationMessage For="@(() => pessoaViewModel.Telefone)" class="text-danger" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="email">Email:</label>
+        <InputText id="email" class="form-control" @bind-Value="pessoaViewModel.Email" />
+        <ValidationMessage For="@(() => pessoaViewModel.Email)" class="text-danger" />
+    </div>
+
+    <h4 class="mt-4">Endereço</h4>
+
+    <div class="form-group mb-3">
+        <label for="rua">Rua:</label>
+        <InputText id="rua" class="form-control" @bind-Value="pessoaViewModel.EnderecoViewModel.Rua" />
+        <ValidationMessage For="@(() => pessoaViewModel.EnderecoViewModel.Rua)" class="text-danger" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="numero">Número:</label>
+        <InputNumber id="numero" class="form-control" @bind-Value="pessoaViewModel.EnderecoViewModel.Numero" />
+        <ValidationMessage For="@(() => pessoaViewModel.EnderecoViewModel.Numero)" class="text-danger" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="cidade">Cidade:</label>
+        <InputText id="cidade" class="form-control" @bind-Value="pessoaViewModel.EnderecoViewModel.Cidade" />
+        <ValidationMessage For="@(() => pessoaViewModel.EnderecoViewModel.Cidade)" class="text-danger" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="estado">Estado:</label>
+        <InputText id="estado" class="form-control" @bind-Value="pessoaViewModel.EnderecoViewModel.Estado" />
+        <ValidationMessage For="@(() => pessoaViewModel.EnderecoViewModel.Estado)" class="text-danger" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="cep">CEP:</label>
+        <InputText id="cep" class="form-control" @bind-Value="pessoaViewModel.EnderecoViewModel.CEP" />
+        <ValidationMessage For="@(() => pessoaViewModel.EnderecoViewModel.CEP)" class="text-danger" />
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 mt-3 mb-3">Cadastrar</button>
+</EditForm>
+
+
+@code {
+    private PessoaViewModel pessoaViewModel = new PessoaViewModel
+        {
+            EnderecoViewModel = new EnderecoViewModel()
+        };
+
+    private async Task HandleSubmit()
+    {
+        ValidateEndereco();
+
+        var pessoa = _mapper.Map<Pessoa>(pessoaViewModel);
+
+        if (pessoa.Endereco != null)
+        {
+            pessoa.Endereco.PessoaId = pessoa.Id;
+        }
+
+        try
+        {
+            await _pessoaService.Create(pessoa);
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
+
+
+        if (!_notificador.TemNotificacao())
+        {
+            NavigationManager.NavigateTo("/pessoas");
+        }
+        else
+        {
+            foreach (var errors in _notificador.RetornarNotificacao())
+            {
+                ToastService.ShowError(errors.Mensagem);
+            }
+
+            if (pessoaViewModel.EnderecoViewModel == null)
+            {
+                pessoaViewModel.EnderecoViewModel = new EnderecoViewModel();
+            }
+
+
+        }
+    }
+
+    private void ValidateEndereco()
+    {
+        if (pessoaViewModel.EnderecoViewModel != null)
+        {
+            if (string.IsNullOrWhiteSpace(pessoaViewModel.EnderecoViewModel.Rua) ||
+                string.IsNullOrWhiteSpace(pessoaViewModel.EnderecoViewModel.Cidade) ||
+                string.IsNullOrWhiteSpace(pessoaViewModel.EnderecoViewModel.Estado) ||
+                string.IsNullOrWhiteSpace(pessoaViewModel.EnderecoViewModel.CEP) ||
+                pessoaViewModel.EnderecoViewModel.Numero <= 0)
+            {
+                pessoaViewModel.EnderecoViewModel = null;
+            }
+        }
+    }
+}

@@ -1,0 +1,103 @@
+﻿@page "/register"
+@using Microsoft.AspNetCore.Identity
+@using System.ComponentModel.DataAnnotations
+@using Netrin.App.Models
+@using Netrin.Domain.Interfaces.Notificacoes
+@using Netrin.Domain.Interfaces.Services
+@using Netrin.Domain.Models
+@using Netrin.Services.Validations
+@using global::AutoMapper
+@inject UserManager<IdentityUser> _userManager
+@inject SignInManager<IdentityUser> _signInManager;
+@inject NavigationManager NavigationManager
+@inject IMapper _mapper
+@inject INotificador _notificador
+@inject IUsuarioService _usuarioService
+@inject IToastService ToastService
+
+<h3 class="text-center">Registrar</h3>
+
+<EditForm Model="@registerModel" OnValidSubmit="HandleRegister">
+    <DataAnnotationsValidator />
+    <ValidationSummary class="text-danger" />
+
+    <div class="form-group mb-3">
+        <label>Nome:</label>
+        <InputText class="form-control" @bind-Value="registerModel.Nome" />
+        <ValidationMessage For="@(() => registerModel.Nome)" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Email:</label>
+        <InputText class="form-control" @bind-Value="registerModel.Email" />
+        <ValidationMessage For="@(() => registerModel.Email)" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Senha:</label>
+        <InputText class="form-control" @bind-Value="registerModel.Senha" type="password" />
+        <ValidationMessage For="@(() => registerModel.Senha)" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Confirme a Senha:</label>
+        <InputText class="form-control" @bind-Value="registerModel.ConfirmarSenha" type="password" />
+        <ValidationMessage For="@(() => registerModel.ConfirmarSenha)" />
+    </div>
+
+    <button class="btn btn-primary w-100" type="submit">Registrar</button>
+</EditForm>
+
+@code {
+    private UsuarioViewModel registerModel = new UsuarioViewModel();
+
+    private async Task HandleRegister()
+    {
+        if (registerModel.Senha != registerModel.ConfirmarSenha)
+        {
+            ToastService.ShowError("As senhas não coincidem");
+            return;
+        }
+
+        var user = new IdentityUser { UserName = registerModel.Email, Email = registerModel.Email, EmailConfirmed = true };
+        var result = await _userManager.CreateAsync(user, registerModel.Senha);
+
+        if (result.Succeeded)
+        {
+            var identity = await _userManager.FindByEmailAsync(registerModel.Email);
+            var usuario = _mapper.Map<Usuario>(registerModel);
+
+            usuario.Id = Guid.Parse(identity.Id);
+
+            var validator = new UsuarioValidation();
+            var resultValidation = validator.Validate(usuario);
+
+            if (resultValidation.IsValid)
+            {
+                await _usuarioService.Create(usuario);
+
+                if (!_notificador.TemNotificacao())
+                {
+                    // Redirecione o usuário ou exiba uma mensagem de sucesso
+                    NavigationManager.NavigateTo("/login");
+                }
+                else
+                {
+                    foreach (var errors in _notificador.RetornarNotificacao())
+                    {
+                        ToastService.ShowError(errors.Mensagem);
+                    }
+
+                    await _userManager.DeleteAsync(user);
+                }
+            }
+        }
+        else
+        {
+            foreach (var error in result.Errors)
+            {
+                ToastService.ShowError(error.Description);
+            }
+        }
+    }
+}

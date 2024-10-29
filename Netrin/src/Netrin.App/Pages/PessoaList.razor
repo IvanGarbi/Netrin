@@ -1,0 +1,100 @@
+﻿@page "/pessoas"
+@using Netrin.App.Models
+@using Netrin.Domain.Interfaces.Notificacoes
+@using Netrin.Domain.Interfaces.Repository
+@using Netrin.Domain.Interfaces.Services
+@using global::AutoMapper
+@inject IPessoaRepository _pessoaRepository
+@inject IMapper _mapper
+@inject IPessoaService _pessoaService
+@inject IToastService ToastService
+@inject INotificador _notificador
+
+@attribute [Authorize]
+
+<h3>Lista de Pessoas</h3>
+
+@if (pessoas == null)
+{
+    <p>Carregando...</p>
+}
+else if (!pessoas.Any())
+{
+    <p>Nenhuma pessoa encontrada.</p>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Nome Completo</th>
+                <th>Data de Nascimento</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th>Editar</th>
+                <th>Deletar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pessoa in pessoas)
+            {
+                <tr>
+                    <td>@pessoa.NomeCompleto</td>
+                    <td>@pessoa.DataNascimento.ToShortDateString()</td>
+                    <td>@pessoa.CPF</td>
+                    <td>@pessoa.Telefone</td>
+                    <td>@pessoa.Email</td>
+                    <td>
+                        <a href="editar-pessoa/@pessoa.Id" class="btn btn-sm btn-outline-primary">Editar</a>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-danger" @onclick="() => DeletePessoa(pessoa.Id)">Deletar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+@code {
+    private IEnumerable<GetPessoaViewModel> pessoas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var pessoasDb = await _pessoaRepository.Get();
+
+        pessoas = _mapper.Map<IEnumerable<GetPessoaViewModel>>(pessoasDb);
+
+    }
+
+    private async Task DeletePessoa(Guid pessoaId)
+    {
+        try
+        {
+            await _pessoaService.Delete(pessoaId); // Chama o serviço para deletar a pessoa
+
+            if (!_notificador.TemNotificacao())
+            {
+                ToastService.ShowSuccess("Pessoa deletada com sucesso.");
+            }
+            else
+            {
+                foreach (var error in _notificador.RetornarNotificacao())
+                {
+                    ToastService.ShowError(error.Mensagem);
+                }
+            }
+            
+            var pessoasDb = await _pessoaRepository.Get();
+
+            pessoas = _mapper.Map<IEnumerable<GetPessoaViewModel>>(pessoasDb);
+
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError("Erro ao deletar a pessoa: " + ex.Message);
+        }
+    }
+}

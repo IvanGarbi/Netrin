@@ -13,9 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{EFF637DE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Netrin.Domain", "src\Netrin.Domain\Netrin.Domain.csproj", "{F0BCCD2F-A24D-4748-A4CC-7E14651F9AFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Netrin.Data", "src\Netrin.Data\Netrin.Data.csproj", "{5C5B387E-D1FC-4574-A0F0-B375D392AED3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Netrin.Data", "src\Netrin.Data\Netrin.Data.csproj", "{5C5B387E-D1FC-4574-A0F0-B375D392AED3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Netrin.Services", "src\Netrin.Services\Netrin.Services.csproj", "{C0761E2A-E52B-4C76-A646-82B27D5D77BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Netrin.Services", "src\Netrin.Services\Netrin.Services.csproj", "{C0761E2A-E52B-4C76-A646-82B27D5D77BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{E5B1ABB5-A03B-4B3E-ACB0-4B5F7E2E9081}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Netrin.App", "src\Netrin.App\Netrin.App.csproj", "{A600BDE5-AA7D-4F21-BE39-9983FEB0AB19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +39,10 @@ Global
 		{C0761E2A-E52B-4C76-A646-82B27D5D77BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0761E2A-E52B-4C76-A646-82B27D5D77BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0761E2A-E52B-4C76-A646-82B27D5D77BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A600BDE5-AA7D-4F21-BE39-9983FEB0AB19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A600BDE5-AA7D-4F21-BE39-9983FEB0AB19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A600BDE5-AA7D-4F21-BE39-9983FEB0AB19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A600BDE5-AA7D-4F21-BE39-9983FEB0AB19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +54,8 @@ Global
 		{F0BCCD2F-A24D-4748-A4CC-7E14651F9AFD} = {DB2097C9-A73A-4C09-8EF1-6DCCED98AE92}
 		{5C5B387E-D1FC-4574-A0F0-B375D392AED3} = {EFF637DE-B62C-4B6E-92E5-535685BF259C}
 		{C0761E2A-E52B-4C76-A646-82B27D5D77BF} = {DB2097C9-A73A-4C09-8EF1-6DCCED98AE92}
+		{E5B1ABB5-A03B-4B3E-ACB0-4B5F7E2E9081} = {49DA2FA0-6D43-4549-85DA-403B586FD8D9}
+		{A600BDE5-AA7D-4F21-BE39-9983FEB0AB19} = {E5B1ABB5-A03B-4B3E-ACB0-4B5F7E2E9081}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {504DC258-2040-432D-9AD0-95B07D1D8867}
