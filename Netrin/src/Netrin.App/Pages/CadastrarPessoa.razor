@@ -108,31 +108,27 @@
         try
         {
             await _pessoaService.Create(pessoa);
+
+            if (!_notificador.TemNotificacao())
+            {
+                NavigationManager.NavigateTo("/pessoas");
+            }
+            else
+            {
+                foreach (var errors in _notificador.RetornarNotificacao())
+                {
+                    ToastService.ShowError(errors.Mensagem);
+                }
+
+                if (pessoaViewModel.EnderecoViewModel == null)
+                {
+                    pessoaViewModel.EnderecoViewModel = new EnderecoViewModel();
+                }
+            }
         }
         catch (Exception ex)
         {
-
-            throw;
-        }
-
-
-        if (!_notificador.TemNotificacao())
-        {
-            NavigationManager.NavigateTo("/pessoas");
-        }
-        else
-        {
-            foreach (var errors in _notificador.RetornarNotificacao())
-            {
-                ToastService.ShowError(errors.Mensagem);
-            }
-
-            if (pessoaViewModel.EnderecoViewModel == null)
-            {
-                pessoaViewModel.EnderecoViewModel = new EnderecoViewModel();
-            }
-
-
+            ToastService.ShowError("Error.");
         }
     }
 

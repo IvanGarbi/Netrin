@@ -2,7 +2,7 @@
 
 namespace Netrin.Domain.Interfaces.Services
 {
-    public interface IEnderecoService : IDisposable//IBaseService<Endereco>
+    public interface IEnderecoService// : IDisposable//IBaseService<Endereco>
     {
         Task Create(Endereco entity);
         Task Update(Endereco entity);

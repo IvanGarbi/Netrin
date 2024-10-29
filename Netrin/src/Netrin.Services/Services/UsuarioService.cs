@@ -25,10 +25,5 @@ namespace Netrin.Services.Services
 
             await _repository.Create(entity);
         }
-
-        public void Dispose()
-        {
-            _repository?.Dispose();
-        }
     }
 }

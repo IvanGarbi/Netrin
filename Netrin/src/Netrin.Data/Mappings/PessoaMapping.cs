@@ -11,11 +11,11 @@ namespace Netrin.Data.Mappings
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Telefone)
-                .IsRequired()
+                .IsRequired(false)
                 .HasColumnType("VARCHAR(20)");
 
             builder.Property(x => x.Email)
-                .IsRequired()
+                .IsRequired(false)
                 .HasColumnType("VARCHAR(100)");
 
             builder.Property(x => x.CPF)

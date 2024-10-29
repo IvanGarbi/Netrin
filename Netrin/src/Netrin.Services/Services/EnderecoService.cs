@@ -49,11 +49,6 @@ namespace Netrin.Services.Services
             await _repository.Delete(id);
         }
 
-        public void Dispose()
-        {
-            _repository?.Dispose();
-        }
-
         public async Task Update(Endereco entity)
         {
             var validation = await Validate(new EnderecoValidation(), entity);
