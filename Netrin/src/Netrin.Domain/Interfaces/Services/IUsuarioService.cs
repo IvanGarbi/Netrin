@@ -2,10 +2,8 @@
 
 namespace Netrin.Domain.Interfaces.Services
 {
-    public interface IUsuarioService// : IDisposable//IBaseService<Usuario>
+    public interface IUsuarioService
     {
         Task Create(Usuario entity);
-        //Task Update(Endereco entity);
-        //Task Delete(Guid id);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Netrin.Domain.Interfaces.Services
 {
-    public interface IPessoaService// : IDisposable//IBaseService<Pessoa>
+    public interface IPessoaService
     {
         Task Create(Pessoa entity);
         Task Update(Pessoa entity);

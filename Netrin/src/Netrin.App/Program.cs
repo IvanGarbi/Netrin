@@ -1,20 +1,14 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Blazored.Toast;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Netrin.App.Data;
 using Netrin.Data.Context;
-using Microsoft.Extensions.DependencyInjection;
-using Netrin.Domain.Interfaces.Repository;
 using Netrin.Data.Repository;
-using Netrin.Services.Services;
-using Netrin.Domain.Interfaces.Services;
 using Netrin.Domain.Interfaces.Notificacoes;
+using Netrin.Domain.Interfaces.Repository;
+using Netrin.Domain.Interfaces.Services;
 using Netrin.Services.Notificacoes;
-using Blazored.Toast;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Components.Authorization;
+using Netrin.Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +30,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-//builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<NetrinDbContext>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
